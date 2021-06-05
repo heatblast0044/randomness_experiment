@@ -1,38 +1,52 @@
-.App {
+@import url("https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+
+* {
+  font-family: "Odibee Sans", cursive;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #006362;
+  width: 100vw;
+  height: 60px;
+  padding: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #ffffff;
+}
+h4 {
+  font-family: "Fira Sans", sans-serif;
+  padding: 50px;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.buttons{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 15vh;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button{
+  width: 5vw;
+  height: 10vh;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.count{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 15vh;
+  color: #006362;
 }
-
-.App-link {
-  color: #61dafb;
+.countValue{
+  font-size: 64px;
+  text-align: center;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.countCaption{
+  letter-spacing: 2px;
+  text-align: center;
 }
