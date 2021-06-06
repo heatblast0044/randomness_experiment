@@ -22,7 +22,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+  font-size: 36px;
   color: #ffffff;
 }
 nav .title {
@@ -46,7 +46,7 @@ nav button.reset:active {
 h4 {
   font-family: "Fira Sans", sans-serif;
   margin-top: 2vh;
-  padding: 20px;
+  padding: 20px 30px;
   text-align: center;
 }
 .buttons {

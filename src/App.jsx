@@ -145,10 +145,11 @@ function App() {
       <h4>
         Try and press the 6 buttons here randomly for some number of times and
         in the end see your results to see how unbiased and random your choices
-        were. Remember if you try to press a different button from the previous
-        one to make your clicks for every button the same then you are being the
-        opposite of random! The more number of presses you have, the more
-        prominently you can see your bias.
+        were and also the probablity of you pressing a button based on your
+        previous presses as the sample space. (Remember if you try to press a
+        different button from the previous one to make your clicks for every
+        button the same then you are being the opposite of random!) The more
+        number of presses you have, the more prominently you can see your bias.
       </h4>
       <div className="buttons">{buttons}</div>
       <div className="count">
