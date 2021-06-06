@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
+import Donut from "./Donut";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,6 +15,7 @@ function App() {
     five: 0,
     six: 0,
   });
+  const [order, setOrder] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
 
@@ -64,10 +66,13 @@ function App() {
 
   const onClickShow = () => {
     if (!disabled) {
+      console.log(order)
       document.querySelector(".results").style.display = "flex";
       const body = JSON.stringify({
         record: record,
         count: count,
+        width: window.innerWidth,
+        order: order
       });
       const config = {
         headers: { "Content-Type": "application/json" },
@@ -111,8 +116,10 @@ function App() {
       name={name.name}
       setCount={setCount}
       setRecord={setRecord}
+      setOrder = {setOrder}
       record={record}
       key={name.name}
+      className={"inputButton"}
     />
   ));
 

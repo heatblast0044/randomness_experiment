@@ -51,8 +51,7 @@ h4 {
 }
 .buttons {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: space-evenly;
   margin-top: 15vh;

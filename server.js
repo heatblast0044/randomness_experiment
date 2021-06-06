@@ -40,7 +40,12 @@ app.get("/api", function (req, res) {
 });
 
 app.post("/api", (req, res) => {
-  var myobj = { record: req.body.record, count: req.body.count };
+  var myobj = {
+    record: req.body.record,
+    count: req.body.count,
+    width: req.body.width,
+    order: req.body.order,
+  };
   if (isNaN(req.body.count) || !req.body.count) {
     return res.status(400).json({ msg: "Bad request." });
   }
