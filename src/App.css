@@ -91,7 +91,7 @@ button.showResultsButton:active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 30vh 0 20vh 0;
+  margin: 20vh 0 20vh 0;
   color: #006362;
 }
 .res button {
@@ -111,4 +111,16 @@ button.showResultsButton:active {
 }
 .resCaption {
   text-align: center;
+}
+.global {
+  margin-top: 20vh;
+}
+h1 {
+  font-size: 64px;
+  color: #006362;
+  text-align: center;
+}
+.disclaimer {
+  letter-spacing: 1px;
+  margin: 150px 0 20px 0;
 }

@@ -1,11 +1,82 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
+import { fireEvent } from "@testing-library/dom";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [record, setRecord] = useState({});
+  const [record, setRecord] = useState({
+    one: 0,
+    two: 0,
+    three: 0,
+    four: 0,
+    five: 0,
+    six: 0,
+  });
+
+  const [globalCount, setGlobalCount] = useState(0);
+  const [globalRecord, setGlobalRecord] = useState({
+    one: 0,
+    two: 0,
+    three: 0,
+    four: 0,
+    five: 0,
+    six: 0,
+  });
+
+  const [GET, setGET] = useState(0);
+
+  useEffect(() => {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    axios
+      .get("/api", config)
+      .then((res) => {
+        setGlobalCount(0);
+        setGlobalRecord({
+          one: 0,
+          two: 0,
+          three: 0,
+          four: 0,
+          five: 0,
+          six: 0,
+        });
+        res.data.forEach((round) => {
+          setGlobalCount((prev) => prev + round.count);
+          setGlobalRecord({
+            one: globalRecord.one + round.record.one,
+            two: globalRecord.two + round.record.two,
+            three: globalRecord.three + round.record.three,
+            four: globalRecord.four + round.record.four,
+            five: globalRecord.five + round.record.five,
+            six: globalRecord.six + round.record.six,
+          });
+        });
+      })
+      .catch((err) => {
+        console.log("error");
+      });
+  }, [GET]);
+
+  const onClickShow = () => {
+    document.querySelector(".results").style.display = "flex";
+    setGET((x) => x + 1);
+
+    const body = JSON.stringify({
+      record,
+      count,
+    });
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    axios
+      .post("/api", body, config)
+      .then((res) => console.log(res))
+      .catch((err) => console.log("error"));
+  };
 
   const onClickReset = () => {
     setCount(0);
@@ -35,10 +106,17 @@ function App() {
   const resultButtons = names.map((name) => (
     <ResultButton
       name={name.name}
-      setCount={setCount}
-      setRecord={setRecord}
       count={count}
       record={record}
+      key={name.name}
+    />
+  ));
+
+  const globalButtons = names.map((name) => (
+    <ResultButton
+      name={name.name}
+      count={globalCount}
+      record={globalRecord}
       key={name.name}
     />
   ));
@@ -65,27 +143,25 @@ function App() {
         <span className="countCaption">COUNT</span>
       </div>
       <div className="showResults">
-        <button
-          className="showResultsButton"
-          onClick={() =>
-            (document.querySelector(".results").style.display = "flex")
-          }
-        >
+        <button className="showResultsButton" onClick={onClickShow}>
           SHOW
           <br />
           RESULTS
         </button>
       </div>
       <div className="results">{resultButtons}</div>
-      <p
-        align="center"
-        style={{
-          fontFamily: "'Fira Sans', sans-serif",
-          margin: "150px 0 20px 0",
-          fontSize: "14px",
-          color: "#1f1f1f",
-        }}
-      >
+      <hr style={{ margin: "5vh 0" }} />
+      <div className="global">
+        <h1>GLOBAL STATS</h1>
+        <div className="count" style={{ marginTop: "15vh" }}>
+          <span className="countValue">{globalCount}</span>
+          <span className="countCaption">COUNT</span>
+        </div>
+        <div className="results" style={{ display: "flex" }}>
+          {globalButtons}
+        </div>
+      </div>
+      <p align="center" className="disclaimer">
         Disclaimer: The data of your attempts will be stored, however, NO
         personal information of any kind will be stored.
       </p>
