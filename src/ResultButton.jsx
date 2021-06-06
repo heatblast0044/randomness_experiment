@@ -6,8 +6,8 @@ export default function ResultButton(props) {
       <button name={props.name}>{props.name}</button>
       <div className="resUnit">
         <span>
-          {props.record[props.name] / props.count
-            ? props.record[props.name] / props.count
+          {props.count
+            ? (props.record[props.name] / props.count).toFixed(4)
             : 0}
         </span>
         <span className="resValue">{props.record[props.name]}</span>

@@ -48,7 +48,6 @@ function App() {
         res.data.forEach((round) => {
           setGlobalCount((prev) => prev + round.count);
           setGlobalRecord((c) => ({
-            ...c,
             one: c.one + round.record.one,
             two: c.two + round.record.two,
             three: c.three + round.record.three,
@@ -64,28 +63,35 @@ function App() {
   }, [GET]);
 
   const onClickShow = () => {
-    document.querySelector(".results").style.display = "flex";
-
-    const body = JSON.stringify({
-      record,
-      count,
-    });
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
-    axios
-      .post("/api", body, config)
-      .then((res) => {
-        console.log(res);
-        setDisabled(true);
-      })
-      .catch((err) => console.log("error"));
-    setGET((x) => x + 1);
+    if (!disabled) {
+      document.querySelector(".results").style.display = "flex";
+      const body = JSON.stringify({
+        record: record,
+        count: count,
+      });
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      axios
+        .post("/api", body, config)
+        .then((res) => {
+          setDisabled(true);
+        })
+        .catch((err) => console.log("error"));
+      setGET((x) => x + 1);
+    }
   };
 
   const onClickReset = () => {
     setCount(0);
-    setRecord({});
+    setRecord({
+      one: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+      five: 0,
+      six: 0,
+    });
     document.querySelector(".results").style.display = "none";
     window.scrollTo(0, 0);
     setDisabled(false);
@@ -150,11 +156,7 @@ function App() {
         <span className="countCaption">COUNT</span>
       </div>
       <div className="showResults">
-        <button
-          className="showResultsButton"
-          onClick={onClickShow}
-          disabled={disabled}
-        >
+        <button className="showResultsButton" onClick={onClickShow}>
           SHOW
           <br />
           RESULTS

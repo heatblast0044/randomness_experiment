@@ -32,6 +32,13 @@ app.get("/api", function (req, res) {
         .find()
         .toArray(function (err, result) {
           if (err) throw err;
+          result.forEach((entry) => {
+            let tot = 0;
+            Object.values(entry.record).forEach((val) => {
+              tot += val;
+            });
+            console.log(tot);
+          });
           db.close();
           res.json(result);
         });
@@ -41,6 +48,14 @@ app.get("/api", function (req, res) {
 
 app.post("/api", (req, res) => {
   var myobj = { record: req.body.record, count: req.body.count };
+  if (isNaN(req.body.count) || !req.body.count) {
+    return res.status(400).json({ msg: "Bad request." });
+  }
+  Object.values(req.body.record).forEach((val) => {
+    if (isNaN(val)) {
+      return res.status(400).json({ msg: "Bad request." });
+    }
+  });
   MongoClient.connect(
     process.env.MONGO_URL,
     { useUnifiedTopology: true },

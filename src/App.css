@@ -11,7 +11,7 @@ button {
   width: 70px;
   height: 70px;
   cursor: pointer;
-  margin: 20px;
+  margin: 30px;
 }
 
 nav {
@@ -139,10 +139,10 @@ h1 {
     left: 80%;
     transform: translateX(-20%);
   }
-  .buttons{
+  .buttons {
     margin-top: 5vh;
   }
-  .count{
+  .count {
     margin-top: 5vh;
   }
 }
