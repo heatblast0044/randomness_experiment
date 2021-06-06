@@ -1,6 +1,6 @@
 # Randomness Challenge
 
-A website to see how random you can be while pressing 6 perfectly identical buttons. It also shows data of how many times each button was pressed cumulatively, everytime the website was used. Made using React, NodeJS, ExpressJS and MongoDB.
+A website to see how random you can be while pressing 6 perfectly identical buttons. It also shows data of how many times each button was pressed cumulatively everytime the website was used and the probablity of pressing each button using the all the button presses as the sample space. Made using React, NodeJS, ExpressJS and MongoDB.
 
 ## Description
 
