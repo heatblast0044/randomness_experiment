@@ -15,6 +15,8 @@ function App() {
     six: 0,
   });
 
+  const [disabled, setDisabled] = useState(false);
+
   const [globalCount, setGlobalCount] = useState(0);
   const [globalRecord, setGlobalRecord] = useState({
     one: 0,
@@ -73,7 +75,10 @@ function App() {
     };
     axios
       .post("/api", body, config)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setDisabled(true);
+      })
       .catch((err) => console.log("error"));
     setGET((x) => x + 1);
   };
@@ -83,6 +88,7 @@ function App() {
     setRecord({});
     document.querySelector(".results").style.display = "none";
     window.scrollTo(0, 0);
+    setDisabled(false);
   };
 
   const names = [
@@ -144,7 +150,11 @@ function App() {
         <span className="countCaption">COUNT</span>
       </div>
       <div className="showResults">
-        <button className="showResultsButton" onClick={onClickShow}>
+        <button
+          className="showResultsButton"
+          onClick={onClickShow}
+          disabled={disabled}
+        >
           SHOW
           <br />
           RESULTS
