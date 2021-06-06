@@ -32,13 +32,6 @@ app.get("/api", function (req, res) {
         .find()
         .toArray(function (err, result) {
           if (err) throw err;
-          result.forEach((entry) => {
-            let tot = 0;
-            Object.values(entry.record).forEach((val) => {
-              tot += val;
-            });
-            console.log(tot);
-          });
           db.close();
           res.json(result);
         });
