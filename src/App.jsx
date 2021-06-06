@@ -3,7 +3,6 @@ import axios from "axios";
 import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
-import { fireEvent } from "@testing-library/dom";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -46,14 +45,15 @@ function App() {
         });
         res.data.forEach((round) => {
           setGlobalCount((prev) => prev + round.count);
-          setGlobalRecord({
-            one: globalRecord.one + round.record.one,
-            two: globalRecord.two + round.record.two,
-            three: globalRecord.three + round.record.three,
-            four: globalRecord.four + round.record.four,
-            five: globalRecord.five + round.record.five,
-            six: globalRecord.six + round.record.six,
-          });
+          setGlobalRecord((c) => ({
+            ...c,
+            one: c.one + round.record.one,
+            two: c.two + round.record.two,
+            three: c.three + round.record.three,
+            four: c.four + round.record.four,
+            five: c.five + round.record.five,
+            six: c.six + round.record.six,
+          }));
         });
       })
       .catch((err) => {
@@ -63,7 +63,6 @@ function App() {
 
   const onClickShow = () => {
     document.querySelector(".results").style.display = "flex";
-    setGET((x) => x + 1);
 
     const body = JSON.stringify({
       record,
@@ -76,12 +75,14 @@ function App() {
       .post("/api", body, config)
       .then((res) => console.log(res))
       .catch((err) => console.log("error"));
+    setGET((x) => x + 1);
   };
 
   const onClickReset = () => {
     setCount(0);
     setRecord({});
     document.querySelector(".results").style.display = "none";
+    window.scrollTo(0, 0);
   };
 
   const names = [
@@ -124,7 +125,7 @@ function App() {
   return (
     <div>
       <nav>
-        Randomness Challenge{" "}
+        <span className="title">Randomness Challenge</span>
         <button className="reset" onClick={onClickReset}>
           RESET
         </button>
