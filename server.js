@@ -1,5 +1,8 @@
 const express = require("express");
-var MongoClient = require("mongodb").MongoClient;
+const MongoClient = require("mongodb").MongoClient;
+const path = require("path");
+
+// Configuring environment variables if not in production.
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -7,6 +10,14 @@ if (process.env.NODE_ENV !== "production") {
 // Initializing express and enabling bodyParser
 const app = express();
 app.use(express.json());
+
+// Serving static files if in production.
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve(__dirname, "build")));
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
 
 // Setting up API
 app.get("/api", function (req, res) {
