@@ -163,6 +163,10 @@ function App() {
         </div>
       </div>
       <p align="center" className="disclaimer">
+        <a href="https://github.com/heatblast0044/randomness_challenge">
+          Source Code (GitHub)
+        </a>
+        <br />
         Disclaimer: The data of your attempts will be stored, however, NO
         personal information of any kind will be stored.
       </p>
