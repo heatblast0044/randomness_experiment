@@ -46,7 +46,7 @@ export default function Chart(props) {
         label={({ dataEntry }) =>
           dataEntry.title +
           "   " +
-          (dataEntry.value / props.count).toFixed(3) * 100 +
+          (dataEntry.value / props.count * 100).toFixed(2) +
           "%"
         }
         labelStyle={{ ...labelStyle }}

@@ -4,6 +4,7 @@ import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
 import Chart from "./Chart";
+import Mapper from "./Mapper";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,6 +19,8 @@ function App() {
   const [order, setOrder] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
+  const [pointer, setPointer] = useState({});
+  const [globalPointer, setGlobalPointer] = useState({});
 
   const [globalCount, setGlobalCount] = useState(0);
   const [globalRecord, setGlobalRecord] = useState({
@@ -47,26 +50,62 @@ function App() {
           five: 0,
           six: 0,
         });
-        res.data.forEach((round) => {
-          setGlobalCount((prev) => prev + round.count);
-          setGlobalRecord((c) => ({
-            one: c.one + round.record.one,
-            two: c.two + round.record.two,
-            three: c.three + round.record.three,
-            four: c.four + round.record.four,
-            five: c.five + round.record.five,
-            six: c.six + round.record.six,
-          }));
+        res.data.result.forEach((round) => {
+          if (round.width) {
+            setGlobalCount((prev) => prev + round.count);
+            setGlobalRecord((c) => ({
+              one: c.one + round.record.one,
+              two: c.two + round.record.two,
+              three: c.three + round.record.three,
+              four: c.four + round.record.four,
+              five: c.five + round.record.five,
+              six: c.six + round.record.six,
+            }));
+          }
         });
+        setGlobalPointer(res.data.pointer);
       })
       .catch((err) => {
         console.log("error");
       });
+    console.log(globalPointer.one);
   }, [GET]);
+
+  function getAllIndexes(arr, val) {
+    var indexes = [],
+      i = -1;
+    while ((i = arr.indexOf(val, i + 1)) !== -1) {
+      indexes.push(i);
+    }
+    return indexes;
+  }
+
+  function mode(arr) {
+    return arr
+      .sort(
+        (a, b) =>
+          arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
+      )
+      .pop();
+  }
 
   const onClickShow = () => {
     if (!disabled) {
-      console.log(order);
+      names.forEach((number) => {
+        let nex = [];
+        let index = order.indexOf(number);
+        if (index === -1) {
+        } else {
+          let indices = getAllIndexes(order, number);
+          indices.forEach((index) => {
+            if (index + 1 < order.length) {
+              nex.push(order[index + 1]);
+            }
+          });
+          let next = mode(nex);
+          setPointer((c) => ({ ...c, [number]: next }));
+        }
+      });
       document.querySelector(".results").style.display = "flex";
       const body = JSON.stringify({
         record: record,
@@ -127,17 +166,44 @@ function App() {
       key={name}
     />
   ));
-  const resultButtons = names.map((name) => (
-    <ResultButton name={name} count={count} record={record} key={name} />
+
+  const resultButtons0 = names
+    .slice(0, 3)
+    .map((name) => (
+      <ResultButton name={name} count={count} record={record} key={name} />
+    ));
+  const resultButtons1 = names
+    .slice(3)
+    .map((name) => (
+      <ResultButton name={name} count={count} record={record} key={name} />
+    ));
+
+  const resultMapper = Object.keys(pointer).map((key) => (
+    <Mapper from={key} to={pointer[key]} key={key} />
   ));
 
-  const globalButtons = names.map((name) => (
-    <ResultButton
-      name={name}
-      count={globalCount}
-      record={globalRecord}
-      key={name}
-    />
+  const globalButtons0 = names
+    .slice(0, 3)
+    .map((name) => (
+      <ResultButton
+        name={name}
+        count={globalCount}
+        record={globalRecord}
+        key={name}
+      />
+    ));
+  const globalButtons1 = names
+    .slice(3)
+    .map((name) => (
+      <ResultButton
+        name={name}
+        count={globalCount}
+        record={globalRecord}
+        key={name}
+      />
+    ));
+  const globalMapper = Object.keys(globalPointer).map((key) => (
+    <Mapper from={key} to={globalPointer[key]} key={key} />
   ));
 
   return (
@@ -173,11 +239,16 @@ function App() {
         </button>
       </div>
       <div className="results">
-        {resultButtons}
-        <br />
-        <br />
-        <div className="pie">
-          <Chart count={count} record={record} />
+        <span className="buttons0">{resultButtons0}</span>
+        <span className="buttons1">{resultButtons1}</span>
+        <div className="visuals">
+          <div className="pie">
+            <Chart count={count} record={record} />
+          </div>
+          <div className="mapper">
+            <p>Button most likely to be pressed next</p>
+            {resultMapper}
+          </div>
         </div>
       </div>
       <hr style={{ margin: "5vh 0" }} />
@@ -188,11 +259,18 @@ function App() {
           <span className="countCaption">COUNT</span>
         </div>
         <div className="results" style={{ display: "flex" }}>
-          {globalButtons}
+          <span className="buttons0">{globalButtons0}</span>
+          <span className="buttons1">{globalButtons1}</span>
         </div>
       </div>
-      <div className="pie">
-        <Chart count={globalCount} record={globalRecord} />
+      <div className="visuals">
+        <div className="pie">
+          <Chart count={globalCount} record={globalRecord} />
+        </div>
+        <div className="mapper">
+          <p>Button most likely to be pressed next</p>
+          {globalMapper}
+        </div>
       </div>
       <p align="center" className="disclaimer">
         <a href="https://github.com/heatblast0044/randomness_challenge">

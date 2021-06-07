@@ -19,6 +19,25 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// Data processing functions
+function mode(arr) {
+  return arr
+    .sort(
+      (a, b) =>
+        arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
+    )
+    .pop();
+}
+
+function getAllIndexes(arr, val) {
+  var indexes = [],
+    i = -1;
+  while ((i = arr.indexOf(val, i + 1)) !== -1) {
+    indexes.push(i);
+  }
+  return indexes;
+}
+
 // Setting up API
 app.get("/api", function (req, res) {
   MongoClient.connect(
@@ -33,7 +52,36 @@ app.get("/api", function (req, res) {
         .toArray(function (err, result) {
           if (err) throw err;
           db.close();
-          res.json(result);
+          let names = ["one", "two", "three", "four", "five", "six"];
+          let pointer = {
+            one: [],
+            two: [],
+            three: [],
+            four: [],
+            five: [],
+            six: [],
+          };
+          result.forEach((round) => {
+            if (round.width) {
+              names.forEach((number) => {
+                let index = round.order.indexOf(number);
+                if (index === -1) {
+                } else {
+                  let indices = getAllIndexes(round.order, number);
+                  indices.forEach((index) => {
+                    if (index + 1 < round.order.length) {
+                      pointer[number].push(round.order[index + 1]);
+                    }
+                  });
+                }
+              });
+            }
+          });
+          names.forEach((name) => {
+            let max = mode(pointer[name].slice());
+            pointer[name] = max;
+          });
+          res.json({ result: result, pointer: pointer });
         });
     }
   );

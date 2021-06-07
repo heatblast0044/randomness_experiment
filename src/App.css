@@ -12,6 +12,8 @@ button {
   height: 70px;
   cursor: pointer;
   margin: 30px;
+  color: #006362;
+  font-size: 16px;
 }
 
 nav {
@@ -83,7 +85,7 @@ h4 {
   display: none;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 .showResults {
   display: flex;
@@ -110,10 +112,6 @@ button.showResultsButton:active {
   margin: 20px 0 20px 0;
   color: #006362;
 }
-.res button {
-  color: #006362;
-  font-size: 16px;
-}
 .resUnit {
   display: flex;
   flex-direction: column;
@@ -128,12 +126,31 @@ button.showResultsButton:active {
 .resCaption {
   text-align: center;
 }
+.visuals {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 100px 0;
+}
 .pie {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 50px 0;
+  width: 40%;
+}
+.mapper {
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.mapper p{
   width: 100%;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 1px;
 }
 .global {
   margin-top: 20vh;
