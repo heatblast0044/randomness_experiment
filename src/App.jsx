@@ -21,7 +21,7 @@ function App() {
   const [disabled, setDisabled] = useState(false);
 
   const [uniform, setUniform] = useState({ mobile: 0, PC: 0 });
-  const [entriesLength, setEntriesLength] = useState(0);
+  const [entriesLength, setEntriesLength] = useState({ mobile: 0, PC: 0 });
 
   const [pointer, setPointer] = useState({});
   const [globalPCPointer, setGlobalPCPointer] = useState({});
@@ -76,8 +76,8 @@ function App() {
         });
         res.data.result.forEach((round) => {
           if (round.width) {
-            setEntriesLength((c) => c + 1);
             if (round.width > 730) {
+              setEntriesLength((c) => ({ ...c, PC: c.PC + 1 }));
               let similar = false;
               Object.values(round.record).forEach((val) => {
                 if (val >= round.count / 6 - 2 && val <= round.count / 6 + 2) {
@@ -99,6 +99,10 @@ function App() {
                 six: c.six + round.record.six,
               }));
             } else {
+              setEntriesLength((c) => ({
+                ...c,
+                mobile: c.mobile + 1,
+              }));
               let similar = false;
               Object.values(round.record).forEach((val) => {
                 if (val >= round.count / 6 - 2 && val <= round.count / 6 + 2) {
@@ -128,11 +132,6 @@ function App() {
       .catch((err) => {
         console.log("error");
       });
-    setUniform((c) => ({
-      ...c,
-      PC: c.PC / entriesLength,
-      mobile: c.mobile / entriesLength,
-    }));
   }, [GET]);
 
   function getAllIndexes(arr, val) {
@@ -362,10 +361,21 @@ function App() {
           </div>
           <p>
             The average number of clicks a entry has is{" "}
-            {globalPCCount / entriesLength}.
+            <span style={{ color: "#006362" }}>
+              {entriesLength.PC
+                ? (globalPCCount / entriesLength.PC).toFixed(2)
+                : 0}
+            </span>
+            .
             <br />
-            The probablity of random clicks of all the button being within the
-            range of &#177;2 is {uniform.PC.toFixed(4)}.
+            The probablity of random clicks of all the buttons being within the
+            range of &#177;2 is{" "}
+            <span style={{ color: "#006362" }}>
+              {entriesLength.PC
+                ? (uniform.PC / entriesLength.PC).toFixed(3)
+                : 0}
+            </span>
+            .
           </p>
         </div>
         <div className="layout">
@@ -399,10 +409,21 @@ function App() {
           </div>
           <p>
             The average number of clicks a entry has is{" "}
-            {globalMobileCount / entriesLength}.
+            <span style={{ color: "#006362" }}>
+              {entriesLength.mobile
+                ? (globalMobileCount / entriesLength.mobile).toFixed(2)
+                : 0}
+            </span>
+            .
             <br />
-            The probablity of random clicks of all the button being within the
-            range of &#177;2 is {uniform.mobile.toFixed(4)}.
+            The probablity of random clicks of all the buttons being within the
+            range of &#177;2 is{" "}
+            <span style={{ color: "#006362" }}>
+              {entriesLength.mobile
+                ? (uniform.mobile / entriesLength.mobile).toFixed(3)
+                : 0}
+            </span>
+            .
           </p>
         </div>
       </div>
