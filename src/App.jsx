@@ -68,7 +68,6 @@ function App() {
       .catch((err) => {
         console.log("error");
       });
-    console.log(globalPointer.one);
   }, [GET]);
 
   function getAllIndexes(arr, val) {
