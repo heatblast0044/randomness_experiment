@@ -128,6 +128,7 @@ button.showResultsButton:active {
 }
 .visuals {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
   width: 100%;
@@ -146,7 +147,7 @@ button.showResultsButton:active {
   align-items: center;
   justify-content: center;
 }
-.mapper p{
+.mapper p {
   width: 100%;
   font-size: 18px;
   text-align: center;
@@ -174,6 +175,13 @@ h1 {
   }
   .count {
     margin-top: 5vh;
+  }
+  .pie {
+    width: 100%;
+  }
+  .mapper {
+    width: 100%;
+    margin-top: 100px;
   }
 }
 @media screen and (max-width: 530px) {
