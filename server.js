@@ -53,7 +53,15 @@ app.get("/api", function (req, res) {
           if (err) throw err;
           db.close();
           let names = ["one", "two", "three", "four", "five", "six"];
-          let pointer = {
+          let PCPointer = {
+            one: [],
+            two: [],
+            three: [],
+            four: [],
+            five: [],
+            six: [],
+          };
+          let mobilePointer = {
             one: [],
             two: [],
             three: [],
@@ -63,25 +71,48 @@ app.get("/api", function (req, res) {
           };
           result.forEach((round) => {
             if (round.width) {
-              names.forEach((number) => {
-                let index = round.order.indexOf(number);
-                if (index === -1) {
-                } else {
-                  let indices = getAllIndexes(round.order, number);
-                  indices.forEach((index) => {
-                    if (index + 1 < round.order.length) {
-                      pointer[number].push(round.order[index + 1]);
-                    }
-                  });
-                }
-              });
+              if (round.width > 730) {
+                names.forEach((number) => {
+                  let index = round.order.indexOf(number);
+                  if (index === -1) {
+                  } else {
+                    let indices = getAllIndexes(round.order, number);
+                    indices.forEach((index) => {
+                      if (index + 1 < round.order.length) {
+                        PCPointer[number].push(round.order[index + 1]);
+                      }
+                    });
+                  }
+                });
+              } else {
+                names.forEach((number) => {
+                  let index = round.order.indexOf(number);
+                  if (index === -1) {
+                  } else {
+                    let indices = getAllIndexes(round.order, number);
+                    indices.forEach((index) => {
+                      if (index + 1 < round.order.length) {
+                        mobilePointer[number].push(round.order[index + 1]);
+                      }
+                    });
+                  }
+                });
+              }
             }
           });
           names.forEach((name) => {
-            let max = mode(pointer[name].slice());
-            pointer[name] = max;
+            let max = mode(PCPointer[name].slice());
+            PCPointer[name] = max;
           });
-          res.json({ result: result, pointer: pointer });
+          names.forEach((name) => {
+            let max = mode(mobilePointer[name].slice());
+            mobilePointer[name] = max;
+          });
+          res.json({
+            result: result,
+            mobilePointer: mobilePointer,
+            PCPointer: PCPointer,
+          });
         });
     }
   );

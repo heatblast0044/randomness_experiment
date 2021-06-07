@@ -161,6 +161,12 @@ h1 {
   color: #006362;
   text-align: center;
 }
+.layout{
+  margin-top: 15vh;
+}
+.layout h1{
+  font-size: 42px;
+}
 .disclaimer {
   letter-spacing: 1px;
   margin: 150px 0 20px 0;

@@ -20,10 +20,21 @@ function App() {
 
   const [disabled, setDisabled] = useState(false);
   const [pointer, setPointer] = useState({});
-  const [globalPointer, setGlobalPointer] = useState({});
+  const [globalPCPointer, setGlobalPCPointer] = useState({});
 
-  const [globalCount, setGlobalCount] = useState(0);
-  const [globalRecord, setGlobalRecord] = useState({
+  const [globalPCCount, setGlobalPCCount] = useState(0);
+  const [globalPCRecord, setGlobalPCRecord] = useState({
+    one: 0,
+    two: 0,
+    three: 0,
+    four: 0,
+    five: 0,
+    six: 0,
+  });
+  const [globalMobilePointer, setGlobalMobilePointer] = useState({});
+
+  const [globalMobileCount, setGlobalMobileCount] = useState(0);
+  const [globalMobileRecord, setGlobalMobileRecord] = useState({
     one: 0,
     two: 0,
     three: 0,
@@ -41,8 +52,17 @@ function App() {
     axios
       .get("/api", config)
       .then((res) => {
-        setGlobalCount(0);
-        setGlobalRecord({
+        setGlobalPCCount(0);
+        setGlobalPCRecord({
+          one: 0,
+          two: 0,
+          three: 0,
+          four: 0,
+          five: 0,
+          six: 0,
+        });
+        setGlobalMobileCount(0);
+        setGlobalMobileRecord({
           one: 0,
           two: 0,
           three: 0,
@@ -52,18 +72,31 @@ function App() {
         });
         res.data.result.forEach((round) => {
           if (round.width) {
-            setGlobalCount((prev) => prev + round.count);
-            setGlobalRecord((c) => ({
-              one: c.one + round.record.one,
-              two: c.two + round.record.two,
-              three: c.three + round.record.three,
-              four: c.four + round.record.four,
-              five: c.five + round.record.five,
-              six: c.six + round.record.six,
-            }));
+            if (round.width > 730) {
+              setGlobalPCCount((prev) => prev + round.count);
+              setGlobalPCRecord((c) => ({
+                one: c.one + round.record.one,
+                two: c.two + round.record.two,
+                three: c.three + round.record.three,
+                four: c.four + round.record.four,
+                five: c.five + round.record.five,
+                six: c.six + round.record.six,
+              }));
+            } else {
+              setGlobalMobileCount((prev) => prev + round.count);
+              setGlobalMobileRecord((c) => ({
+                one: c.one + round.record.one,
+                two: c.two + round.record.two,
+                three: c.three + round.record.three,
+                four: c.four + round.record.four,
+                five: c.five + round.record.five,
+                six: c.six + round.record.six,
+              }));
+            }
           }
         });
-        setGlobalPointer(res.data.pointer);
+        setGlobalPCPointer(res.data.PCPointer);
+        setGlobalMobilePointer(res.data.mobilePointer);
       })
       .catch((err) => {
         console.log("error");
@@ -181,28 +214,51 @@ function App() {
     <Mapper from={key} to={pointer[key]} key={key} />
   ));
 
-  const globalButtons0 = names
+  const globalPCButtons0 = names
     .slice(0, 3)
     .map((name) => (
       <ResultButton
         name={name}
-        count={globalCount}
-        record={globalRecord}
+        count={globalPCCount}
+        record={globalPCRecord}
         key={name}
       />
     ));
-  const globalButtons1 = names
+  const globalPCButtons1 = names
     .slice(3)
     .map((name) => (
       <ResultButton
         name={name}
-        count={globalCount}
-        record={globalRecord}
+        count={globalPCCount}
+        record={globalPCRecord}
         key={name}
       />
     ));
-  const globalMapper = Object.keys(globalPointer).map((key) => (
-    <Mapper from={key} to={globalPointer[key]} key={key} />
+  const globalPCMapper = Object.keys(globalPCPointer).map((key) => (
+    <Mapper from={key} to={globalPCPointer[key]} key={key} />
+  ));
+  const globalMobileButtons0 = names
+    .slice(0, 3)
+    .map((name) => (
+      <ResultButton
+        name={name}
+        count={globalMobileCount}
+        record={globalMobileRecord}
+        key={name}
+      />
+    ));
+  const globalMobileButtons1 = names
+    .slice(3)
+    .map((name) => (
+      <ResultButton
+        name={name}
+        count={globalMobileCount}
+        record={globalMobileRecord}
+        key={name}
+      />
+    ));
+  const globalMobileMapper = Object.keys(globalMobilePointer).map((key) => (
+    <Mapper from={key} to={globalMobilePointer[key]} key={key} />
   ));
 
   return (
@@ -253,22 +309,55 @@ function App() {
       <hr style={{ margin: "5vh 0" }} />
       <div className="global">
         <h1>GLOBAL STATS</h1>
-        <div className="count" style={{ marginTop: "15vh" }}>
-          <span className="countValue">{globalCount}</span>
-          <span className="countCaption">COUNT</span>
+        <div className="layout">
+          <h1>PC Layout</h1>
+          <div className="count" style={{ marginTop: "15vh" }}>
+            <span className="countValue">{globalPCCount}</span>
+            <span className="countCaption">COUNT</span>
+          </div>
+          <div className="results" style={{ display: "flex" }}>
+            <span className="buttons0">{globalPCButtons0}</span>
+            <span className="buttons1">{globalPCButtons1}</span>
+          </div>
+          <div className="visuals">
+            <div className="pie">
+              <Chart count={globalPCCount} record={globalPCRecord} />
+            </div>
+            <div className="mapper">
+              <p>Button most likely to be pressed next</p>
+              {globalPCMapper}
+            </div>
+          </div>
         </div>
-        <div className="results" style={{ display: "flex" }}>
-          <span className="buttons0">{globalButtons0}</span>
-          <span className="buttons1">{globalButtons1}</span>
-        </div>
-      </div>
-      <div className="visuals">
-        <div className="pie">
-          <Chart count={globalCount} record={globalRecord} />
-        </div>
-        <div className="mapper">
-          <p>Button most likely to be pressed next</p>
-          {globalMapper}
+        <div className="layout">
+          <h1>Mobile Layout</h1>
+          <div className="count" style={{ marginTop: "15vh" }}>
+            <span className="countValue">{globalMobileCount}</span>
+            <span className="countCaption">COUNT</span>
+          </div>
+          <div className="results" style={{ display: "flex" }}>
+            <span
+              className="buttons0"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              {globalMobileButtons0}
+            </span>
+            <span
+              className="buttons1"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              {globalMobileButtons1}
+            </span>
+          </div>
+          <div className="visuals">
+            <div className="pie">
+              <Chart count={globalMobileCount} record={globalMobileRecord} />
+            </div>
+            <div className="mapper">
+              <p>Button most likely to be pressed next</p>
+              {globalMobileMapper}
+            </div>
+          </div>
         </div>
       </div>
       <p align="center" className="disclaimer">
