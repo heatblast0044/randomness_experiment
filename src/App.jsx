@@ -3,7 +3,6 @@ import axios from "axios";
 import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
-import Donut from "./Donut";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -66,13 +65,13 @@ function App() {
 
   const onClickShow = () => {
     if (!disabled) {
-      console.log(order)
+      console.log(order);
       document.querySelector(".results").style.display = "flex";
       const body = JSON.stringify({
         record: record,
         count: count,
         width: window.innerWidth,
-        order: order
+        order: order,
       });
       const config = {
         headers: { "Content-Type": "application/json" },
@@ -102,42 +101,43 @@ function App() {
     setDisabled(false);
   };
 
-  const names = [
-    { name: "one" },
-    { name: "two" },
-    { name: "three" },
-    { name: "four" },
-    { name: "five" },
-    { name: "six" },
-  ];
+  const names = ["one", "two", "three", "four", "five", "six"];
 
-  const buttons = names.map((name) => (
-    <Button
-      name={name.name}
-      setCount={setCount}
-      setRecord={setRecord}
-      setOrder = {setOrder}
-      record={record}
-      key={name.name}
-      className={"inputButton"}
-    />
-  ));
+  const buttons0 = names
+    .slice(3)
+    .map((name) => (
+      <Button
+        name={name}
+        setCount={setCount}
+        setRecord={setRecord}
+        setOrder={setOrder}
+        record={record}
+        key={name}
+      />
+    ));
 
+  const buttons1 = names
+    .slice(3, 6)
+    .map((name) => (
+      <Button
+        name={name}
+        setCount={setCount}
+        setRecord={setRecord}
+        setOrder={setOrder}
+        record={record}
+        key={name}
+      />
+    ));
   const resultButtons = names.map((name) => (
-    <ResultButton
-      name={name.name}
-      count={count}
-      record={record}
-      key={name.name}
-    />
+    <ResultButton name={name} count={count} record={record} key={name} />
   ));
 
   const globalButtons = names.map((name) => (
     <ResultButton
-      name={name.name}
+      name={name}
       count={globalCount}
       record={globalRecord}
-      key={name.name}
+      key={name}
     />
   ));
 
@@ -158,7 +158,10 @@ function App() {
         button the same then you are being the opposite of random!) The more
         number of presses you have, the more prominently you can see your bias.
       </h4>
-      <div className="buttons">{buttons}</div>
+      <div className="buttons">
+        <span className="buttons0">{buttons0}</span>
+        <span className="buttons1">{buttons1}</span>
+      </div>
       <div className="count">
         <span className="countValue">{count}</span>
         <span className="countCaption">COUNT</span>

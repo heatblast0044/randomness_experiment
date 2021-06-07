@@ -11,7 +11,7 @@ export default function Button(props) {
   };
 
   return (
-    <div className={props.className}>
+    <div className={props.name}>
       <button name={props.name} onClick={onClick}></button>
     </div>
   );

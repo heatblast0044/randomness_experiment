@@ -22,7 +22,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  font-size: 32px;
   color: #ffffff;
 }
 nav .title {
@@ -53,8 +53,15 @@ h4 {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   margin-top: 15vh;
+}
+.buttons0,
+.buttons1 {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
 }
 .count {
   display: flex;
@@ -161,5 +168,13 @@ h1 {
   }
   nav .title {
     left: 5%;
+  }
+  button {
+    margin: 10px;
+  }
+}
+@media screen and (max-width: 275px) {
+  button {
+    margin: 0;
   }
 }
