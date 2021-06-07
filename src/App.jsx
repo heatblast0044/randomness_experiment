@@ -19,6 +19,10 @@ function App() {
   const [order, setOrder] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
+
+  const [uniform, setUniform] = useState({ mobile: 0, PC: 0 });
+  const [entriesLength, setEntriesLength] = useState(0);
+
   const [pointer, setPointer] = useState({});
   const [globalPCPointer, setGlobalPCPointer] = useState({});
 
@@ -72,7 +76,19 @@ function App() {
         });
         res.data.result.forEach((round) => {
           if (round.width) {
+            setEntriesLength((c) => c + 1);
             if (round.width > 730) {
+              let similar = false;
+              Object.values(round.record).forEach((val) => {
+                if (val >= round.count / 6 - 2 && val <= round.count / 6 + 2) {
+                  similar = true;
+                } else {
+                  similar = false;
+                }
+              });
+              if (similar) {
+                setUniform((c) => ({ ...c, PC: c.PC + 1 }));
+              }
               setGlobalPCCount((prev) => prev + round.count);
               setGlobalPCRecord((c) => ({
                 one: c.one + round.record.one,
@@ -83,6 +99,17 @@ function App() {
                 six: c.six + round.record.six,
               }));
             } else {
+              let similar = false;
+              Object.values(round.record).forEach((val) => {
+                if (val >= round.count / 6 - 2 && val <= round.count / 6 + 2) {
+                  similar = true;
+                } else {
+                  similar = false;
+                }
+              });
+              if (similar) {
+                setUniform((c) => ({ ...c, mobile: c.mobile + 1 }));
+              }
               setGlobalMobileCount((prev) => prev + round.count);
               setGlobalMobileRecord((c) => ({
                 one: c.one + round.record.one,
@@ -101,6 +128,11 @@ function App() {
       .catch((err) => {
         console.log("error");
       });
+    setUniform((c) => ({
+      ...c,
+      PC: c.PC / entriesLength,
+      mobile: c.mobile / entriesLength,
+    }));
   }, [GET]);
 
   function getAllIndexes(arr, val) {
@@ -328,6 +360,13 @@ function App() {
               {globalPCMapper}
             </div>
           </div>
+          <p>
+            The average number of clicks a entry has is{" "}
+            {globalPCCount / entriesLength}.
+            <br />
+            The probablity of random clicks of all the button being within the
+            range of &#177;2 is {uniform.PC.toFixed(4)}.
+          </p>
         </div>
         <div className="layout">
           <h1>Mobile Layout</h1>
@@ -358,6 +397,13 @@ function App() {
               {globalMobileMapper}
             </div>
           </div>
+          <p>
+            The average number of clicks a entry has is{" "}
+            {globalMobileCount / entriesLength}.
+            <br />
+            The probablity of random clicks of all the button being within the
+            range of &#177;2 is {uniform.mobile.toFixed(4)}.
+          </p>
         </div>
       </div>
       <p align="center" className="disclaimer">

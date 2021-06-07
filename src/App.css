@@ -15,6 +15,10 @@ button {
   color: #006362;
   font-size: 16px;
 }
+p {
+  text-align: center;
+  letter-spacing: 1px;
+}
 
 nav {
   position: relative;
@@ -161,10 +165,10 @@ h1 {
   color: #006362;
   text-align: center;
 }
-.layout{
+.layout {
   margin-top: 15vh;
 }
-.layout h1{
+.layout h1 {
   font-size: 42px;
 }
 .disclaimer {
