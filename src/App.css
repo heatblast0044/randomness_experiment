@@ -128,6 +128,13 @@ button.showResultsButton:active {
 .resCaption {
   text-align: center;
 }
+.pie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 0;
+  width: 100%;
+}
 .global {
   margin-top: 20vh;
 }

@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
+import Chart from "./Chart";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -102,32 +103,30 @@ function App() {
   };
 
   const names = ["one", "two", "three", "four", "five", "six"];
+  const name1 = ["one", "two", "three"];
+  const name2 = ["four", "five", "six"];
 
-  const buttons0 = names
-    .slice(3)
-    .map((name) => (
-      <Button
-        name={name}
-        setCount={setCount}
-        setRecord={setRecord}
-        setOrder={setOrder}
-        record={record}
-        key={name}
-      />
-    ));
+  const buttons0 = name1.map((name) => (
+    <Button
+      name={name}
+      setCount={setCount}
+      setRecord={setRecord}
+      setOrder={setOrder}
+      record={record}
+      key={name}
+    />
+  ));
 
-  const buttons1 = names
-    .slice(3, 6)
-    .map((name) => (
-      <Button
-        name={name}
-        setCount={setCount}
-        setRecord={setRecord}
-        setOrder={setOrder}
-        record={record}
-        key={name}
-      />
-    ));
+  const buttons1 = name2.map((name) => (
+    <Button
+      name={name}
+      setCount={setCount}
+      setRecord={setRecord}
+      setOrder={setOrder}
+      record={record}
+      key={name}
+    />
+  ));
   const resultButtons = names.map((name) => (
     <ResultButton name={name} count={count} record={record} key={name} />
   ));
@@ -173,7 +172,14 @@ function App() {
           RESULTS
         </button>
       </div>
-      <div className="results">{resultButtons}</div>
+      <div className="results">
+        {resultButtons}
+        <br />
+        <br />
+        <div className="pie">
+          <Chart count={count} record={record} />
+        </div>
+      </div>
       <hr style={{ margin: "5vh 0" }} />
       <div className="global">
         <h1>GLOBAL STATS</h1>
@@ -184,6 +190,9 @@ function App() {
         <div className="results" style={{ display: "flex" }}>
           {globalButtons}
         </div>
+      </div>
+      <div className="pie">
+        <Chart count={globalCount} record={globalRecord} />
       </div>
       <p align="center" className="disclaimer">
         <a href="https://github.com/heatblast0044/randomness_challenge">

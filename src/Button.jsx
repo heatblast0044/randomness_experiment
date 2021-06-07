@@ -7,7 +7,7 @@ export default function Button(props) {
       ...props.record,
       [e.target.name]: props.record[e.target.name] + 1,
     });
-    props.setOrder(c=>[...c, e.target.name])
+    props.setOrder((c) => [...c, e.target.name]);
   };
 
   return (
