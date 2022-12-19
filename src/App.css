@@ -139,7 +139,7 @@ button.showResultsButton:active {
   width: 100%;
   margin: 100px 0;
 }
-.pie {
+.chart {
   display: flex;
   align-items: center;
   justify-content: center;

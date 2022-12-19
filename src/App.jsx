@@ -3,7 +3,7 @@ import axios from "axios";
 import Button from "./Button";
 import "./App.css";
 import ResultButton from "./ResultButton";
-import Chart from "./Chart";
+import Graph from "./Graph";
 import Mapper from "./Mapper";
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
     six: 0,
   });
   const [globalMobilePointer, setGlobalMobilePointer] = useState({});
+  const [kanye, setKanye] = useState("");
 
   const [globalMobileCount, setGlobalMobileCount] = useState(0);
   const [globalMobileRecord, setGlobalMobileRecord] = useState({
@@ -50,12 +51,20 @@ function App() {
   const [GET, setGET] = useState(0);
 
   useEffect(() => {
+    fetch("https://api.kanye.rest")
+      .then((res) => res.json())
+      .then((res) => setKanye(res));
+  }, []);
+  console.log(kanye);
+
+  useEffect(() => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
     axios
       .get("/api", config)
       .then((res) => {
+        console.log(res)
         setGlobalPCCount(0);
         setGlobalPCRecord({
           one: 0,
@@ -328,8 +337,8 @@ function App() {
         <span className="buttons0">{resultButtons0}</span>
         <span className="buttons1">{resultButtons1}</span>
         <div className="visuals">
-          <div className="pie">
-            <Chart count={count} record={record} />
+          <div className="chart">
+            <Graph count={count} record={record} />
           </div>
           <div className="mapper">
             <p>Button most likely to be pressed next</p>
@@ -351,8 +360,8 @@ function App() {
             <span className="buttons1">{globalPCButtons1}</span>
           </div>
           <div className="visuals">
-            <div className="pie">
-              <Chart count={globalPCCount} record={globalPCRecord} />
+            <div className="chart">
+              <Graph count={globalPCCount} record={globalPCRecord} />
             </div>
             <div className="mapper">
               <p>Button most likely to be pressed next</p>
@@ -399,8 +408,8 @@ function App() {
             </span>
           </div>
           <div className="visuals">
-            <div className="pie">
-              <Chart count={globalMobileCount} record={globalMobileRecord} />
+            <div className="chart">
+              <Graph count={globalMobileCount} record={globalMobileRecord} />
             </div>
             <div className="mapper">
               <p>Button most likely to be pressed next</p>
