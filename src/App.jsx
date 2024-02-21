@@ -64,7 +64,7 @@ function App() {
     axios
       .get("/api", config)
       .then((res) => {
-        console.log(res);
+        console.log(res)
         setGlobalPCCount(0);
         setGlobalPCRecord({
           one: 0,
@@ -347,7 +347,7 @@ function App() {
         </div>
       </div>
       <hr style={{ margin: "5vh 0" }} />
-      {/* <div className="global">
+      <div className="global">
         <h1>GLOBAL STATS</h1>
         <div className="layout">
           <h1>PC Layout</h1>
@@ -435,7 +435,7 @@ function App() {
             .
           </p>
         </div>
-      </div> */}
+      </div>
       <p align="center" className="disclaimer">
         <a href="https://github.com/heatblast0044/randomness_challenge">
           Source Code (GitHub)
